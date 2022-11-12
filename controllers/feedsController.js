@@ -2,8 +2,12 @@ const { Feeds } = require("../models");
 
 
 // get all post
-const getFeeds = async (req, res) => {
-    Feeds.findAll()
+const getFeeds = (req, res) => {
+    Feeds.findAll({
+        order: [
+            ['id', 'DESC']
+        ]
+    })
     .then(posts => {
         return res.status(200).json(posts)
     })
@@ -34,18 +38,38 @@ const createFeeds = async (req, res) => {
 
 
 // delete post
-const deleteFeeds = async (req, res) => {
+const deleteFeeds = (req, res) => {
     Feeds.destroy({
         where: { id: req.params.id }
     })
-
-    return res.status(200).json({
-        message: "Post deleted successfully"
+    .then(() => {
+        return res.status(200).json({
+            message: "Post deleted successfully"
+        })
     })
 }
+
+
+// update data
+const updateFeeds = (req, res) => {
+    Feeds.update({
+        body: req.body.body
+    }, {
+        where: { id: req.params.id}
+    })
+    .then(() => {
+        return res.status(200).json({
+            message: "Update successful",
+
+        })
+    })
+}
+
+
 
 module.exports = {
     getFeeds,
     createFeeds,
-    deleteFeeds
+    deleteFeeds,
+    updateFeeds
 }
