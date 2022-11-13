@@ -1,1 +1,0 @@
-Technical Test for Full-stack in BigBox (sever side)
